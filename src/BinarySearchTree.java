@@ -5,6 +5,7 @@ public class BinarySearchTree <T extends Comparable<T>>{
      * Initializes the tree.
      */
     public BinarySearchTree() {
+        root = new NodeType<>();
         root = null;
     } //constructor
 
@@ -14,7 +15,37 @@ public class BinarySearchTree <T extends Comparable<T>>{
      * @param key
      */
     public void insert(T key) {
+        NodeType<T> insert = new NodeType<>();
+        insert.info = key;
+        NodeType<T> current = new NodeType<>();
+        current = root;
+        if (root == null) {
+            root = insert;
+        } else {
 
+            boolean inserted = false;
+            boolean duplicateFound = false;
+
+            while (!inserted && !duplicateFound) {
+                if (key.compareTo(current.info) > 0) {
+                    if (current.right == null) {
+                        current.right = insert;
+                        inserted = true;
+                    } else {
+                        current = current.right;
+                    }
+                } else if (key.compareTo(current.info) < 0) {
+                    if (current.left == null) {
+                        current.left = insert;
+                        inserted = true;
+                    } else {
+                        current = current.left;
+                    }
+                } else {
+                    duplicateFound = true;
+                }
+            }
+        }
     } //insert
     /**
      * Remove a node with a key value equal to the
@@ -33,7 +64,8 @@ public class BinarySearchTree <T extends Comparable<T>>{
      * @return true if item is in tree, else return false.
      */
     public boolean retrieve(T item) {
-
+        boolean retrieve = false;
+        return retrieve;
     } //retrieve
 
     /**
@@ -54,16 +86,18 @@ public class BinarySearchTree <T extends Comparable<T>>{
      * Return the count of the number of leaf nodes (nodes with no child)
      */
     public int getNumLeafNodes() {
-
+        int num = 0;
+        return num;
     } //getNumLeafNodes
 
     /**
-     * Take in a node as input and print cousins of a given node
+     * Take in a node as input and print cousins of
      * @param input
      * @return
      */
     public String getCousins(T input) {
-
+        String s = "";
+        return s;
     } //getCousins
 
 }
