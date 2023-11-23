@@ -207,33 +207,80 @@ public class BinarySearchTree <T extends Comparable<T>>{
      * @return
      */
     public void getCousins(T input) {
-        findCousins(root, input, null, 0);
-    } //getCousins
-
+        findCousins(root, input);
+    }
     /**
-     * Finds the level of the tree the input is at.
-     * Finds other nodes at that same level (cousins) and prints them out.
-     * @param node
+     * Finds the level of a given node in the tree.
+     * 
+     * @param node 
      * @param input
-     * @param parent
-     * @param level
+     * @param level 
+     * @return 
      */
-    private void findCousins(NodeType<?> node, T input, NodeType<?> parent, int level) {
+    public void findCousins(NodeType<T> node, T input) {
         if (node == null) {
             return;
         }
-        if (level == 1 && (node.left != null && node.left.info.equals(input) || node.right != null && node.right.info.equals(input))) {
-            //to avoid duplicates
+
+        int level = findLevel(root, input, 1);
+        if (level == -1) {
             return;
         }
+
+        printCousins(root, input, null, level);
+    }
     
-        if (level > 1 && (parent == null || parent.left != node && parent.right != node)) {
-            //cousins found
-            System.out.print(node.info + " ");
+     /**
+     * Prints cousins of a given node at a specific level.
+     * 
+     * @param node  
+     * @param input 
+     * @param parent
+     * @param level 
+     */
+    public void printCousins(NodeType<T> node, T input, NodeType<T> parent, int level) {
+        if (node == null || level < 1) {
+            return;
         }
-    
-        findCousins(node.left, input, node, level + 1);
-        findCousins(node.right, input, node, level + 1);
+
+        if (level == 1 && parent != null && !isSibling(parent, node, input) && !node.info.equals(input)) {
+            System.out.print(node.info + " "); //prints cousins here
+        }
+
+        //continue traversing
+        printCousins(node.left, input, node, level - 1); 
+        printCousins(node.right, input, node, level - 1);
+    }
+    /**
+     * Checks if the given node is a sibling
+     * @param node
+     * @param input
+     * @return
+     */
+    public boolean isSibling(NodeType<T> parent, NodeType<T> node, T input) {
+        return (parent.left == node && parent.right != null && parent.right.info.equals(input)) ||
+        (parent.right == node && parent.left != null && parent.left.info.equals(input));
+    }
+    /**
+     * Finds level of given node
+     * @param node
+     * @param value
+     * @param level
+     * @return
+     */
+    public int findLevel(NodeType<T> node, T input, int level) {
+        if (node == null) {
+            return -1;
+        }
+        if (node.info.equals(input)) {
+            return level;
+        }
+
+        int leftLevel = findLevel(node.left, input, level + 1);
+        if (leftLevel != -1) {
+            return leftLevel;
+        }
+        return findLevel(node.right, input, level + 1);
     }
 
 }

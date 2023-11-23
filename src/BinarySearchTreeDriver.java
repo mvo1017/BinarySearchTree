@@ -49,12 +49,10 @@ public class BinarySearchTreeDriver {
                         doubleTree.insert(dub);        
                     } //for
                     bst = doubleTree;
-                } else if (listType.equals("d")) {
+                } else if (listType.equals("s")) {
                     String[] numbers = line.split(" ");
-        
                     for (int i = 0; i < numbers.length; i++) {
-                        String s = numbers[i];
-                        stringTree.insert(s);
+                        stringTree.insert(numbers[i]);
                     } //for
                     bst = stringTree;
                 } //if else
@@ -70,7 +68,7 @@ public class BinarySearchTreeDriver {
 
         boolean running = true;
         while (running) {
-            System.out.print("Enter a command: ");
+            System.out.print("\nEnter a command: ");
             String command = scanner.next();
 
             if (command.equals("i")) { //insert
@@ -91,7 +89,7 @@ public class BinarySearchTreeDriver {
                 } //double tree
                 else if (listType.equals("s")){
                     System.out.print("Enter a string to insert: ");
-                    String insert = scanner.nextLine();
+                    String insert = scanner.next();
                     stringTree.insert(insert);
                     bst = stringTree;
                 } //string tree
@@ -119,7 +117,7 @@ public class BinarySearchTreeDriver {
                 } //double tree
                 else if (listType.equals("s")){
                     System.out.print("Enter a string to delete: ");
-                    String delete = scanner.nextLine();
+                    String delete = scanner.next();
                     stringTree.delete(stringTree.root, delete);
                     bst = stringTree;
                 } //string tree
