@@ -129,13 +129,13 @@ public class BinarySearchTree <T extends Comparable<T>>{
         boolean found = false;
 
          while (!found) {
-            if (key.compareTo(current.info) > 0) { //navigate right
+            if (item.compareTo(current.info) > 0) { //navigate right
                 if (current.right == null) {
                     break;
                 } else {
                     current = current.right;
                 }
-            } else if (key.compareTo(current.info) < 0) { //navigate left
+            } else if (item.compareTo(current.info) < 0) { //navigate left
                 if (current.left == null) {
                     break;
                 } else {
