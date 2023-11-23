@@ -1,5 +1,5 @@
 public class BinarySearchTree <T extends Comparable<T>>{
-    NodeType<T> root;
+    public NodeType<T> root;
 
     /**
      * Initializes the tree.
@@ -60,65 +60,70 @@ public class BinarySearchTree <T extends Comparable<T>>{
      * successor.
      *  @param key
      */
-    public void delete(T key) {
+    public NodeType<T> delete(NodeType<T> start, T key) {
 
-        NodeType<T> current = root;
-        NodeType<T> delete;
-        boolean found = false;
+        
         boolean present = true;
 
         //find the node to delete
-        while (!found && present) {
-            if (key.compareTo(current.info) > 0) { //navigate right
-                if (current.right == null) {
-                    present = false;
-                } else {
-                    current = current.right;
-                }
-            } else if (key.compareTo(current.info) < 0) { //navigate left
-                if (current.left == null) {
-                    present = false;
-                } else {
-                    current = current.left;
-                }
+        
+            if (start == null) {
+                return start;
+            }
+            if (key.compareTo(start.info) > 0) { //navigate right
+                start.right = delete(start.right, key);
+            } else if (key.compareTo(start.info) < 0) { //navigate left
+                start.left = delete(start.left, key);
             } else {
-                found = true; //duplicate found! current node is one to delete
-            }
-        }
-
-        if (found) {
-            
-            if (current.left == null && current.right ==  null) {
-                //delete leaf node
-                current = null;
-            } else if (current.left != null && current.right == null) {
-                //delete node with one child
-                current = current.left;
-                current.left = null;
-            } else if (current.left == null && current.right != null) {
-                //delete node with one child
-                current = current.right;
-                current.right = null;
-            } else if (current.left != null && current.right != null) {
-                //delete node with two children
-                NodeType<T> temp = current;
-                temp = temp.right;
-                while (temp.left != null) {
-                    temp = temp.left;
-                }
-
-                current.info = temp.info;
-                if (temp.right != null) {
-                    temp = temp.right; //if node to delete has child(ren) on right
-                } else {
-                    temp = null;
+                //duplicate found! current node is one to delete
+                if (start.left == null && start.right ==  null) {
+                    //delete leaf node
+                    start = null;
+                } else if (start.left != null && start.right == null) {
+                    start.info = start.left.info;
+                    start.left = null;
+                } else if (start.left == null && start.right != null) {
+                    start.info = start.right.info;
+                    start.right = null;
+                } else if (start.right != null) { 
+                    //has a child on right
+                    start.info = successor(start); 
+                    start.right = delete(start.right, start.info);
+                } else { 
+                    start.info = predecessor(start);
+                    start.left = delete(start.left, start.info);
                 }
             }
-        }
-
-
-
+        
+        return start;
     } //delete
+
+    
+    /**
+     * Return node's successor value
+     * @param root
+     * @return
+     */
+    public T successor(NodeType<T> root){
+        root = root.right;
+        while(root.left != null){
+            root = root.left;
+        }
+        return root.info;
+    }
+    /**
+     * Return node's predecessor value
+     * @param root
+     * @return
+     */
+    public T predecessor(NodeType<T> root){
+        root = root.left;
+        while(root.right != null){
+            root = root.right;
+        }
+        return root.info;
+    }
+
 /**
      * 
      * @param item
@@ -152,8 +157,14 @@ public class BinarySearchTree <T extends Comparable<T>>{
     /**
      * Return the tree in order.
      */
-    public void inOrder() {
-
+    public String inOrder(NodeType<?> node) {
+        String s = "";
+        if (node != null) {
+            s += inOrder(node.left);
+            s += node.info + " ";
+            s += inOrder(node.right);
+        }
+        return s;
     } //inOrder
 
     /**

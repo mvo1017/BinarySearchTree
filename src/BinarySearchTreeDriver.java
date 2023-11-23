@@ -73,7 +73,9 @@ public class BinarySearchTreeDriver {
             System.out.print("Enter a command: ");
             String command = scanner.next();
 
-            if (command.equals("i")) {
+            if (command.equals("i")) { //insert
+
+                System.out.println(bst.inOrder(bst.root));
 
                 if (listType.equals("i")) {
                     System.out.print("Enter a number to insert: ");
@@ -94,30 +96,73 @@ public class BinarySearchTreeDriver {
                     bst = stringTree;
                 } //string tree
 
+                System.out.println(bst.inOrder(bst.root));
+
             } //insert
 
-            if (command.equals("d")) {
+            if (command.equals("d")) { //delete
+
+                System.out.println(bst.inOrder(bst.root));
+                int length = bst.inOrder(bst.root).length();
+
                 if (listType.equals("i")) {
                     System.out.print("Enter a number to delete: ");
                     int delete = scanner.nextInt();
-                    intTree.delete(delete);
+                    intTree.delete(intTree.root, delete);
                     bst = intTree;
                 } //int tree
                 else if (listType.equals("d")) {
                     System.out.print("Enter a number to delete: ");
                     double delete = scanner.nextDouble();
-                    doubleTree.delete(delete);
+                    doubleTree.delete(doubleTree.root, delete);
                     bst = doubleTree;
                 } //double tree
                 else if (listType.equals("s")){
                     System.out.print("Enter a string to delete: ");
                     String delete = scanner.nextLine();
-                    stringTree.delete(delete);
+                    stringTree.delete(stringTree.root, delete);
                     bst = stringTree;
                 } //string tree
+                if (length == bst.inOrder(bst.root).length() && !listType.equals("s")) {
+                    System.out.println("The number is not present in the tree.");
+                } else if (length == bst.inOrder(bst.root).length() && listType.equals("s")) {
+                    System.out.println("The string is not present in the tree.");
+                } else {
+                    System.out.println(bst.inOrder(bst.root));
+                }
+                
+            
             } //delete
 
-            if (command.equals("q")) {
+            if (command.equals("p")) {
+                System.out.println(bst.inOrder(bst.root));
+            } //print
+
+            if (command.equals("r")) {
+                System.out.println(bst.inOrder(bst.root));
+
+                if (listType.equals("i")) {
+                    System.out.print("Enter a number to search: ");
+                    int search = scanner.nextInt();
+                    boolean r = intTree.retrieve(search);
+                    if (r) System.out.println("Item is present in the tree.");
+                    else System.out.println("Item is not present in the tree.");
+                } else if (listType.equals("d")) {
+                    System.out.print("Enter a number to search: ");
+                    double search = scanner.nextDouble();
+                    boolean r = doubleTree.retrieve(search);
+                    if (r) System.out.println("Item is present in the tree.");
+                    else System.out.println("Item is not present in the tree.");
+                } else if (listType.equals("s")) {
+                    System.out.print("Enter a string to search: ");
+                    String search = scanner.next();
+                    boolean r = stringTree.retrieve(search);
+                    if (r) System.out.println("Item is present in the tree.");
+                    else System.out.println("Item is not present in the tree.");
+                }
+            }
+
+            if (command.equals("q")) { //quit program
                 System.out.println("Exiting the program...");
                 running = false;
             } //quit program
