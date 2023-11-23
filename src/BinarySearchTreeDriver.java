@@ -100,7 +100,7 @@ public class BinarySearchTreeDriver {
 
             } //insert
 
-            if (command.equals("d")) { //delete
+            else if (command.equals("d")) { //delete
 
                 System.out.println(bst.inOrder(bst.root));
                 int length = bst.inOrder(bst.root).length();
@@ -134,11 +134,11 @@ public class BinarySearchTreeDriver {
             
             } //delete
 
-            if (command.equals("p")) {
+            else if (command.equals("p")) {
                 System.out.println(bst.inOrder(bst.root));
             } //print
 
-            if (command.equals("r")) {
+            else if (command.equals("r")) {
                 System.out.println(bst.inOrder(bst.root));
 
                 if (listType.equals("i")) {
@@ -162,10 +162,45 @@ public class BinarySearchTreeDriver {
                 }
             }
 
-            if (command.equals("q")) { //quit program
+            else if (command.equals("s")) {
+                System.out.print("Single Parents: ");
+                bst.getSingleParent(bst.root);
+                System.out.println("");
+            } //find single parents
+
+            else if (command.equals("l")) {
+                System.out.println("The number of leaf nodes are " + bst.getNumLeafNodes(bst.root));
+            } //count leaf nodes
+
+            else if (command.equals("c")) {
+                System.out.println(bst.inOrder(bst.root));
+
+                if (listType.equals("i")) {
+                    System.out.print("Enter a number: ");
+                    int cousin = scanner.nextInt();
+                    System.out.print(cousin + "'s cousins: ");
+                    intTree.getCousins(cousin);
+                } else if (listType.equals("d")) {
+                    System.out.print("Enter a number: ");
+                    double cousin = scanner.nextDouble();
+                    System.out.print(cousin + "'s cousins: ");
+                    doubleTree.getCousins(cousin);
+                } else if (listType.equals("s")) {
+                    System.out.print("Enter a string: ");
+                    String cousin = scanner.next();
+                    System.out.print(cousin + "'s cousins: ");
+                    stringTree.getCousins(cousin);
+                }
+            } //find cousins
+
+            else if (command.equals("q")) { //quit program
                 System.out.println("Exiting the program...");
                 running = false;
             } //quit program
+
+            else {
+                System.out.println("Invalid command. Please try again :)");
+            }
 
         } //while
     } //main

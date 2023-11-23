@@ -170,26 +170,70 @@ public class BinarySearchTree <T extends Comparable<T>>{
     /**
      * Returns the nodes that have only one child.
      */
-    public void getSingleParent() {
+    public void getSingleParent(NodeType<?> root) {
+        //traverses through tree and checks for single parent
+        if (root != null) {
+            getSingleParent(root.left);
 
+            if ((root.left != null && root.right == null) || (root.left == null && root.right != null)) {
+                System.out.print(root.info + " ");
+            }
+    
+            getSingleParent(root.right);
+        }
     } //getSingleParent
 
     /**
      * Return the count of the number of leaf nodes (nodes with no child)
      */
-    public int getNumLeafNodes() {
-        int num = 0;
-        return num;
+    public int getNumLeafNodes(NodeType<?> root) {
+        if (root == null) {
+            return 0;
+        }
+        if (root.left == null && root.right == null) {
+            // Node is a leaf node
+            return 1;
+        } else {
+            // Recursively count leaf nodes in left and right subtrees
+            int leftLeaves = getNumLeafNodes(root.left);
+            int rightLeaves = getNumLeafNodes(root.right);
+            return leftLeaves + rightLeaves;
+        }
     } //getNumLeafNodes
 
     /**
-     * Take in a node as input and print cousins of
+     * Take in a node as input and print cousins of it
      * @param input
      * @return
      */
-    public String getCousins(T input) {
-        String s = "";
-        return s;
+    public void getCousins(T input) {
+        findCousins(root, input, null, 0);
     } //getCousins
+
+    /**
+     * Finds the level of the tree the input is at.
+     * Finds other nodes at that same level (cousins) and prints them out.
+     * @param node
+     * @param input
+     * @param parent
+     * @param level
+     */
+    private void findCousins(NodeType<?> node, T input, NodeType<?> parent, int level) {
+        if (node == null) {
+            return;
+        }
+        if (level == 1 && (node.left != null && node.left.info.equals(input) || node.right != null && node.right.info.equals(input))) {
+            //to avoid duplicates
+            return;
+        }
+    
+        if (level > 1 && (parent == null || parent.left != node && parent.right != node)) {
+            //cousins found
+            System.out.print(node.info + " ");
+        }
+    
+        findCousins(node.left, input, node, level + 1);
+        findCousins(node.right, input, node, level + 1);
+    }
 
 }
