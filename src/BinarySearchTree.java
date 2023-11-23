@@ -45,8 +45,13 @@ public class BinarySearchTree <T extends Comparable<T>>{
                     duplicateFound = true;
                 }
             }
+
+            if (duplicateFound) {
+                System.out.println("The item already exists in the tree.");
+            }
         }
     } //insert
+
     /**
      * Remove a node with a key value equal to the
      * parameter key’s value otherwise leave the tree unchanged (if the key
@@ -57,6 +62,62 @@ public class BinarySearchTree <T extends Comparable<T>>{
      */
     public void delete(T key) {
 
+        NodeType<T> current = root;
+        NodeType<T> delete;
+        boolean found = false;
+        boolean present = true;
+
+        //find the node to delete
+        while (!found && present) {
+            if (key.compareTo(current.info) > 0) { //navigate right
+                if (current.right == null) {
+                    present = false;
+                } else {
+                    current = current.right;
+                }
+            } else if (key.compareTo(current.info) < 0) { //navigate left
+                if (current.left == null) {
+                    present = false;
+                } else {
+                    current = current.left;
+                }
+            } else {
+                found = true; //duplicate found! current node is one to delete
+            }
+        }
+
+        if (found) {
+            
+            if (current.left == null && current.right ==  null) {
+                //delete leaf node
+                current = null;
+            } else if (current.left != null && current.right == null) {
+                //delete node with one child
+                current = current.left;
+                current.left = null;
+            } else if (current.left == null && current.right != null) {
+                //delete node with one child
+                current = current.right;
+                current.right = null;
+            } else if (current.left != null && current.right != null) {
+                //delete node with two children
+                NodeType<T> temp = current;
+                temp = temp.right;
+                while (temp.left != null) {
+                    temp = temp.left;
+                }
+
+                current.info = temp.info;
+                if (temp.right != null) {
+                    temp = temp.right; //if node to delete has child(ren) on right
+                } else {
+                    temp = null;
+                }
+            }
+        }
+
+
+
     } //delete
 /**
      * 
@@ -64,8 +125,28 @@ public class BinarySearchTree <T extends Comparable<T>>{
      * @return true if item is in tree, else return false.
      */
     public boolean retrieve(T item) {
-        boolean retrieve = false;
-        return retrieve;
+        NodeType<T> current = root;
+        boolean found = false;
+
+         while (!found) {
+            if (key.compareTo(current.info) > 0) { //navigate right
+                if (current.right == null) {
+                    break;
+                } else {
+                    current = current.right;
+                }
+            } else if (key.compareTo(current.info) < 0) { //navigate left
+                if (current.left == null) {
+                    break;
+                } else {
+                    current = current.left;
+                }
+            } else {
+                found = true; 
+            }
+        }
+
+        return found;
     } //retrieve
 
     /**
