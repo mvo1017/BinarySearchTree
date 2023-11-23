@@ -1,4 +1,7 @@
 import java.util.Scanner;
+
+import javax.xml.namespace.QName;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -31,7 +34,7 @@ public class BinarySearchTreeDriver {
             while ((line = br.readLine()) != null) {
 
                 if (listType.equals("i")) {
-                    String[] numbers = line.split(",");
+                    String[] numbers = line.split(" ");
         
                     for (int i = 0; i < numbers.length; i++) {
                         int num = Integer.parseInt(numbers[i]);
@@ -39,7 +42,7 @@ public class BinarySearchTreeDriver {
                     } //for
                     bst = intTree;
                 } else if (listType.equals("d")) {
-                    String[] numbers = line.split(",");
+                    String[] numbers = line.split(" ");
         
                     for (int i = 0; i < numbers.length; i++) {
                         double dub = Double.parseDouble(numbers[i]);
@@ -47,7 +50,7 @@ public class BinarySearchTreeDriver {
                     } //for
                     bst = doubleTree;
                 } else if (listType.equals("d")) {
-                    String[] numbers = line.split(",");
+                    String[] numbers = line.split(" ");
         
                     for (int i = 0; i < numbers.length; i++) {
                         String s = numbers[i];
@@ -68,7 +71,7 @@ public class BinarySearchTreeDriver {
         boolean running = true;
         while (running) {
             System.out.print("Enter a command: ");
-            String command = scanner.nextLine();
+            String command = scanner.next();
 
             if (command.equals("i")) {
 
@@ -113,6 +116,11 @@ public class BinarySearchTreeDriver {
                     bst = stringTree;
                 } //string tree
             } //delete
+
+            if (command.equals("q")) {
+                System.out.println("Exiting the program...");
+                running = false;
+            } //quit program
 
         } //while
     } //main
